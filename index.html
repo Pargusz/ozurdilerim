@@ -4,8 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Özür Dilerim</title>
+  <script src="https://cdn.jsdelivr.net/npm/twemoji@14.0.2/dist/twemoji.min.js" crossorigin="anonymous"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    img.emoji { height: 1em; width: 1em; vertical-align: -0.1em; display: inline; }
 
     body {
       min-height: 100vh;
@@ -80,17 +82,21 @@
   </audio>
 
   <script>
-    // Start audio on first user interaction (browser policy)
+    // Twemoji: render all emoji as images for consistent cross-device look
+    twemoji.parse(document.body, { folder: 'svg', ext: '.svg' });
+
     const audio = document.getElementById('bg-audio');
+
     function tryPlay() {
       audio.play().catch(() => {});
     }
-    document.addEventListener('click', tryPlay, { once: true });
-    document.addEventListener('touchstart', tryPlay, { once: true });
-    // Also try immediately (works when autoplay is permitted)
+
+    // Try autoplay immediately on load
     window.addEventListener('load', () => {
       audio.play().catch(() => {
-        // Will start on first touch/click instead
+        // Blocked by browser — start on very first touch (feels instant to user)
+        document.addEventListener('touchstart', tryPlay, { once: true, passive: true });
+        document.addEventListener('click', tryPlay, { once: true });
       });
     });
 
