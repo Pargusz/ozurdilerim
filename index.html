@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Özür Dilerim</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 40%, #f48fb1 100%);
+      font-family: 'Georgia', serif;
+      padding: 24px 16px 40px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: clamp(1.1rem, 5vw, 1.7rem);
+      color: #880e4f;
+      margin-bottom: 28px;
+      line-height: 1.5;
+      text-shadow: 0 1px 3px rgba(255,255,255,0.6);
+      max-width: 340px;
+    }
+
+    .photo-wrapper {
+      position: relative;
+      width: min(320px, 86vw);
+      aspect-ratio: 1 / 1;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(136, 14, 79, 0.25);
+      border: 4px solid #fff;
+    }
+
+    .photo-wrapper img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 20px;
+      transition: opacity 0.8s ease;
+    }
+
+    .photo-wrapper img.hidden { opacity: 0; }
+    .photo-wrapper img.visible { opacity: 1; }
+
+    .hearts {
+      margin-top: 28px;
+      font-size: 2rem;
+      letter-spacing: 6px;
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Sınavına odaklanmana engel olduğum için özür dilerim 🌸</h1>
+
+  <div class="photo-wrapper">
+    <img id="photo1" src="img1.jpeg" alt="" class="visible" />
+    <img id="photo2" src="img2.jpeg" alt="" class="hidden" />
+  </div>
+
+  <div class="hearts">💗 💗 💗</div>
+
+  <audio id="bg-audio" loop preload="auto">
+    <source src="audio.mp3" type="audio/mpeg" />
+  </audio>
+
+  <script>
+    // Start audio on first user interaction (browser policy)
+    const audio = document.getElementById('bg-audio');
+    function tryPlay() {
+      audio.play().catch(() => {});
+    }
+    document.addEventListener('click', tryPlay, { once: true });
+    document.addEventListener('touchstart', tryPlay, { once: true });
+    // Also try immediately (works when autoplay is permitted)
+    window.addEventListener('load', () => {
+      audio.play().catch(() => {
+        // Will start on first touch/click instead
+      });
+    });
+
+    // Alternate photos every 5 seconds
+    const p1 = document.getElementById('photo1');
+    const p2 = document.getElementById('photo2');
+    let showing = 1;
+    setInterval(() => {
+      if (showing === 1) {
+        p1.classList.replace('visible', 'hidden');
+        p2.classList.replace('hidden', 'visible');
+        showing = 2;
+      } else {
+        p2.classList.replace('visible', 'hidden');
+        p1.classList.replace('hidden', 'visible');
+        showing = 1;
+      }
+    }, 5000);
+  </script>
+</body>
+</html>
